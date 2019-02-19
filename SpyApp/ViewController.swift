@@ -41,4 +41,28 @@ class ViewController: UIViewController {
 
         output.text = encoded
     }
+    
+    @IBAction func decryptButton(_ sender: Any) {
+        guard
+            let plaintext = inputField.text,
+            let secretString = secretField.text
+            else {
+                output.text = "No values provided"
+                return
+        }
+        
+        var decoded = ""
+        for character in plaintext {
+            guard let firstUnicodeScalar = character.unicodeScalars.first else {
+                continue
+            }
+            let unicode = firstUnicodeScalar.value
+            let shiftedUnicode = unicode - integerSecret
+            let shiftedCharacter = String(UnicodeScalar(UInt8(shiftedUnicode)))
+            
+            decoded += shiftedCharacter
+        }
+        
+        output.text = decoded
+    }
 }
